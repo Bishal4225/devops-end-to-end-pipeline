@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_REGION     = "us-east-1"
         AWS_ACCOUNT_ID = "471623014951"
-        ECR_REPOSITORY = "nodejs-app"
+        ECR_REPOSITORY = "devops-prod"
         IMAGE_TAG      = "${BUILD_NUMBER}"
         CLUSTER_NAME   = "aws-prod-cluster"
         NAMESPACE      = "production"
