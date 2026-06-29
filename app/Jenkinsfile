@@ -126,6 +126,29 @@ pipeline {
         '''
     }
 }
+    stage('Tag & Push Docker Image') {
+    steps {
+        sh '''
+            echo "Tagging Docker image..."
+
+            docker tag \
+            ${ECR_REPOSITORY}:${IMAGE_TAG} \
+            ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:${IMAGE_TAG}
+
+            docker tag \
+            ${ECR_REPOSITORY}:latest \
+            ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:latest
+
+            echo "Pushing Docker images to Amazon ECR..."
+
+            docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:${IMAGE_TAG}
+
+            docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:latest
+
+            echo "Docker images pushed successfully."
+        '''
+    }
+}
     }
 
    post {
