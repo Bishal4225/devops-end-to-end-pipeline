@@ -9,7 +9,6 @@ pipeline {
         CLUSTER_NAME   = "aws-prod-cluster"
         NAMESPACE      = "production"
     }
-}
 
     options {
         timestamps()
@@ -54,13 +53,26 @@ pipeline {
             }
         }
 
-    stage ('Insatll Dependencies') {
-        steps {
-            dir('app') {
-                sh 'npm ci'
+        stage('Install Dependencies') {
+            steps {
+                dir('app') {
+                    sh 'npm ci'
+                }
             }
-         }
-       }
-
+        }
     }
-    
+
+    post {
+        success {
+            echo 'Pipeline executed successfully.'
+        }
+
+        failure {
+            echo 'Pipeline failed.'
+        }
+
+        always {
+            cleanWs()
+        }
+    }
+}
