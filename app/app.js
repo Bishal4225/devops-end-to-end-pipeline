@@ -4,7 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
-  res.send("Production Grade DevOps Project Running Successfully!");
+  res.send("Version 2 deployed!");
 });
 
 app.get("/health", (req, res) => {
