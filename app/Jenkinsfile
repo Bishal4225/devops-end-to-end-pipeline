@@ -99,6 +99,20 @@ pipeline {
         }
     }
 }
+         stage('Trivy Image Scan') {
+           steps {
+             dir('app') {
+               sh '''
+                echo "Scanning Docker image..."
+
+                trivy image \
+                --severity HIGH,CRITICAL \
+                --exit-code 1 \
+                ${ECR_REPOSITORY}:${IMAGE_TAG}
+            '''
+        }
+    }
+}
     }
 
    post {
