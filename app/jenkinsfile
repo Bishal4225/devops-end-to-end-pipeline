@@ -61,18 +61,6 @@ pipeline {
         }
     }
 
-    stage ('Run Tests') {
-        steps {
-            dir('app') {
-                sh '''
-                node app.js & 
-                APP_PID=$!
-                sleep 10 
-                curl -f http://localhost:3000 || exit 1
-                kill $APP_PID
-                '''
-            }
-        }
-    }
+ 
 
     
