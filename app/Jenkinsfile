@@ -82,6 +82,23 @@ pipeline {
           }
         }
       }
+        stage('Docker Build') {
+          steps {
+            dir('app') {
+              sh '''
+                echo "Building Docker Image..."
+
+                docker build \
+                -t ${ECR_REPOSITORY}:${IMAGE_TAG} \
+                -t ${ECR_REPOSITORY}:latest .
+
+                echo "Docker Image Built Successfully"
+
+                docker images | grep ${ECR_REPOSITORY}
+            '''
+        }
+    }
+}
     }
 
    post {
