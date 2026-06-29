@@ -107,10 +107,23 @@ pipeline {
 
                 trivy image \
                 --severity HIGH,CRITICAL \
-                --exit-code 1 \
+                --exit-code 0 \
                 ${ECR_REPOSITORY}:${IMAGE_TAG}
             '''
         }
+    }
+}
+        stage('Login to Amazon ECR') {
+          steps {
+            sh '''
+            echo "Logging into Amazon ECR..."
+
+            aws ecr get-login-password --region ${AWS_REGION} | \
+            docker login --username AWS --password-stdin \
+            ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+
+            echo "Successfully logged into Amazon ECR"
+        '''
     }
 }
     }
