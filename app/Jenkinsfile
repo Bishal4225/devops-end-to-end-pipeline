@@ -143,7 +143,34 @@ pipeline {
         '''
     }
 }
+    stage('Deploy to Amazon EKS') {
+    steps {
+        dir('app') {
+            sh '''
+                echo "Deploying Kubernetes manifests..."
+
+                kubectl apply -f k8s/namespace.yaml
+                kubectl apply -f k8s/configmap.yaml
+                kubectl apply -f k8s/secret.yaml
+                kubectl apply -f k8s/deployment.yaml
+                kubectl apply -f k8s/service.yaml
+
+                echo "Deployment completed successfully."
+            '''
+        }
     }
+}
+    stage('Verify Deployment') {
+    steps {
+        sh '''
+            kubectl get all -n production
+
+            kubectl rollout status deployment/nodejs-app -n production
+        '''
+       }
+    }
+}
+
 
    post {
         success {

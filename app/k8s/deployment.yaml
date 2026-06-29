@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: nodejs-app
-          image: 471623014951.dkr.ecr.us-east-1.amazonaws.com/nodejs-app:latest
+          image: 471623014951.dkr.ecr.us-east-1.amazonaws.com/devops-prod:l9
 
           imagePullPolicy: Always
 
