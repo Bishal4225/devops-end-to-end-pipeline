@@ -9,6 +9,7 @@ pipeline {
         CLUSTER_NAME   = "aws-prod-cluster"
         NAMESPACE      = "production"
     }
+}
 
     options {
         timestamps()
@@ -58,9 +59,8 @@ pipeline {
             dir('app') {
                 sh 'npm ci'
             }
-        }
+         }
+       }
+
     }
-
- 
-
     
