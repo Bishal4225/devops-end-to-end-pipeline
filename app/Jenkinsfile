@@ -152,10 +152,18 @@ pipeline {
                 kubectl apply -f k8s/namespace.yaml
                 kubectl apply -f k8s/configmap.yaml
                 kubectl apply -f k8s/secret.yaml
-                kubectl apply -f k8s/deployment.yaml
                 kubectl apply -f k8s/service.yaml
 
-                echo "Deployment completed successfully."
+                # Apply deployment only once if it doesn't exist
+                kubectl apply -f k8s/deployment.yaml
+
+                echo "Updating image..."
+
+                kubectl set image deployment/nodejs-app \
+                nodejs-app=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:${IMAGE_TAG} \
+                -n production
+
+                echo "Deployment updated."
             '''
         }
     }
