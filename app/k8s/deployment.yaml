@@ -57,6 +57,6 @@ spec:
             periodSeconds: 5
           envFrom:
             - configMapRef:
-              name: nodejs-app-config
+                name: nodejs-app-config
             - secretRef:
-              name: nodejs-app-secret
+                name: nodejs-app-secret
