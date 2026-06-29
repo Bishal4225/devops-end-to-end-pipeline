@@ -60,12 +60,11 @@ pipeline {
                 }
             }
         }
-    }
 
         stage('Application Health Check') {
-    steps {
-        dir('app') {
-            sh '''
+          steps {
+            dir('app') {
+              sh '''
                 echo "Starting Node.js application..."
 
                 nohup npm start > app.log 2>&1 &
@@ -80,11 +79,12 @@ pipeline {
                 echo "Stopping application..."
                 kill $APP_PID
             '''
+          }
         }
+      }
     }
-}
 
-    post {
+   post {
         success {
             echo 'Pipeline executed successfully.'
         }
