@@ -149,19 +149,23 @@ pipeline {
             sh '''
                 echo "Deploying Kubernetes manifests..."
 
-               kubectl apply -f namespace.yaml
-               kubectl apply -f configmap.yaml
-               kubectl apply -f secret.yaml
-               kubectl apply -f service.yaml
-               kubectl apply -f ingress.yaml
+                kubectl apply -f k8s/namespace.yaml
+                kubectl apply -f k8s/configmap.yaml
+                kubectl apply -f k8s/secret.yaml
+                kubectl apply -f k8s/service.yaml
+                kubectl apply -f k8s/ingress.yaml
+                kubectl apply -f cluster-infra/gp3-storageclass.yaml
 
-               kubectl set image deployment/nodejs-app \
-               nodejs-app=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:${IMAGE_TAG} \
-               -n production
+                # Apply deployment only once if it doesn't exist
+                kubectl apply -f k8s/deployment.yaml
 
-               kubectl rollout status deployment/nodejs-app -n production
+                echo "Updating image..."
 
-               echo "Deployment updated."
+                kubectl set image deployment/nodejs-app \
+                nodejs-app=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:${IMAGE_TAG} \
+                -n production
+
+                echo "Deployment updated."
             '''
         }
     }
