@@ -155,6 +155,7 @@ pipeline {
                 kubectl apply -f k8s/service.yaml
                 kubectl apply -f k8s/ingress.yaml
                 kubectl apply -f cluster-infra/gp3-storageclass.yaml
+                kubectl apply -f cluster-infra/grafana-ingress.yaml
 
                 # Apply deployment only once if it doesn't exist
                 kubectl apply -f k8s/deployment.yaml
